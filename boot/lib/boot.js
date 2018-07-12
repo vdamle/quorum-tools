@@ -44,6 +44,7 @@ const roundChangeTimer = argv.roundchangetimer;
 
 const rpcOrigins = argv.rpcOrigins || "*";
 const wsOrigins = argv.wsOrigins || "*";
+const rpcVhosts = argv.rpcVhosts || "*";
 const consensus = (poa) ? 'POA' : ((ibft) ? 'IBFT' : 'RAFT');
 const txpoolSize = process.env[`PERF_${consensus}_TXPOOL_SIZE`] || 4096; // default value in Geth 1.7+
 const dbCache = process.env[`PERF_${consensus}_CACHE`] || 128; // default size in Geth 1.7
@@ -197,7 +198,7 @@ class Bootstrapper {
       }
     }
 
-    args = `${args} --rpccorsdomain '${rpcOrigins}' --wsorigins '${wsOrigins}' --txpool.globalslots ${txpoolSize} --txpool.globalqueue ${txpoolSize / 4} --cache ${dbCache} --trie-cache-gens ${trieCacheGens} --networkid ${config.network_id}`;
+    args = `${args} --rpccorsdomain '${rpcOrigins}' --wsorigins '${wsOrigins}' --rpcvhosts '${rpcVhosts}' --txpool.globalslots ${txpoolSize} --txpool.globalqueue ${txpoolSize / 4} --cache ${dbCache} --trie-cache-gens ${trieCacheGens} --networkid ${config.network_id}`;
     await fs.writeFile(path.join(DATADIR, 'args.txt'), args);
   }
 
